@@ -1,0 +1,14 @@
+{
+  "name": "root/www",
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Lukasz Urbaniak"
+    }
+  ],
+  "require": {}
+}
