@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-class TestController 
+
+class TestController extends Controller 
 {
     public function index()
     {
-        echo 'Test';
+        return $this->view('test', ['info' => 'Option test']);
     }
 }
