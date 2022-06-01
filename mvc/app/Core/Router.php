@@ -10,7 +10,7 @@ use App\Core\Exceptions\ControllerNotFoundException;
 
 class Router 
 {
-    private array $routes;
+    private array $routes = [];
 
     private function register(string $method, string $path, callable|array $action): self
     {
@@ -28,6 +28,11 @@ class Router
         return $this->register('POST', $path, $action);
     }
 
+    public function getRoutes(): array
+    {
+        return $this->routes;
+    }
+
     public function resolve(string $method, string $uri)
     {
         $route = explode('?', $uri)[0];
@@ -41,22 +46,18 @@ class Router
             return call_user_func($action);
         }
 
-        if (is_array($action)) {
-            [$class, $userMethod] = $action;
+        [$class, $userMethod] = $action;
 
-            if (class_exists($class)) {
-                $controller = new $class();
+        if (class_exists($class)) {
+            $controller = new $class();
 
-                if (method_exists($controller, $userMethod)) {
-                    return call_user_func_array([$controller, $userMethod], []);
-                }
-
-                throw new MethodNotFoundException();
+            if (method_exists($controller, $userMethod)) {
+                return call_user_func_array([$controller, $userMethod], []);
             }
 
-            throw new ControllerNotFoundException();
+            throw new MethodNotFoundException();
         }
 
-        throw new RouteNotFoundException();
+        throw new ControllerNotFoundException();
     }
 }
