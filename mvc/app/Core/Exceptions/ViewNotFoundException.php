@@ -2,7 +2,7 @@
 
 namespace App\Core\Exceptions;
 
-class ViewNotFoundException
+class ViewNotFoundException extends \Exception
 {
     protected $message = 'File not found';
 }
