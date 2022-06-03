@@ -27,22 +27,24 @@ class App
         return self::$app;
     }
 
-    public function run(string $method, string $uri): void
+    public function run(string $method, string $uri): bool
     {
         try {
             echo $this->router->resolve($method, $uri);
         } catch (RouteNotFoundException $e) {
             http_response_code(404);
             echo '404 not found';
+            return false;
         }
+
+        return true;
     }
 
     public function getDatabase(): Database
     {
         if (is_null($this->db)) {
-            $this->db = new Database($this->config->db);
+            $this->db = new Database($this->getConf()->db);
         }
-
         return $this->db;
     }
 
@@ -58,10 +60,6 @@ class App
 
     public function getConf(): Config
     {
-        if (is_null($this->config)) {
-            $this->config = new Config();
-        }
-
         return $this->config;
     }
 }

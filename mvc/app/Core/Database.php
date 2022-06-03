@@ -11,11 +11,15 @@ class Database
 
     public function __construct(array $config)
     {
-        $this->pdo = new PDO(
-            $config['driver'] . ':host=' . $config['host'] . ';dbname=' . $config['name'],
-            $config['user'],
-            $config['password']
-        );
+        try {
+            $this->pdo = new PDO(
+                $config['driver'] . ':host=' . $config['host'] . ';dbname=' . $config['name'],
+                $config['user'],
+                $config['password']
+            );
+        } catch (\PDOException $e) {
+            throw new \Exception($e->getMessage(), (int)$e->getCode());
+        }
     }
 
     public function getPDO(): PDO

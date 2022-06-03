@@ -10,9 +10,9 @@ class View
 {
     public function __construct(private string $view, private array $options = []){}
 
-    public function render(): string
+    public function render(string $path): string
     {
-        $viewPath = __DIR__ . '/../../views/' . $this->view . '.php';
+        $viewPath = $path . '/' . $this->view . '.php';
 
         if (! file_exists($viewPath)) {
             throw new ViewNotFoundException();

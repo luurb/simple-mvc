@@ -20,7 +20,7 @@ class RouterTest extends TestCase
         $this->router = new Router();
     }
 
-    public function testGet(): void
+    public function test_register_router_with_get_method(): void
     {
         $this->router->get('/home', ['Home', 'index']);
         $expected = [
@@ -32,7 +32,7 @@ class RouterTest extends TestCase
         $this->assertEquals($expected, $this->router->getRoutes());
     }
 
-    public function testPost(): void
+    public function test_register_router_with_post_method(): void
     {
         $this->router->post('/store', ['Product', 'store']);
         $expected = [
@@ -44,20 +44,20 @@ class RouterTest extends TestCase
         $this->assertEquals($expected, $this->router->getRoutes());
     }
 
-    public function testGetRoutes(): void
+    public function test_routes_are_empty(): void
     {
         $router = new Router();
         $this->assertEmpty($router->getRoutes());
     }
 
-    public function testCallUserFunc(): void
+    public function test_user_func_is_called(): void
     {
         $this->router->post('/product', fn() => 2);
         $this->assertSame(2, $this->router->resolve('POST', '/product'));
 
     }
 
-    public function testCallUserFuncArr(): void
+    public function test_user_func_is_called_from_class(): void
     {
         $product = new class {
             public function index()
@@ -70,7 +70,7 @@ class RouterTest extends TestCase
         $this->assertSame(2, $this->router->resolve('GET', '/product'));
     }
 
-    public function testRouteNotFoundException(): void
+    public function test_route_not_found_exception_is_throwed(): void
     {
         $this->router->get('/product', ['Product', 'index']);
 
@@ -79,7 +79,7 @@ class RouterTest extends TestCase
 
     }
 
-    public function testMethodNotFoundException(): void
+    public function test_method_not_found_exception_is_throwed(): void
     {
         $product = new class {
             public function index()
@@ -95,7 +95,7 @@ class RouterTest extends TestCase
 
     }
 
-    public function testControllerNotFoundException(): void
+    public function test_controller_not_found_exception_is_throwed(): void
     {
         $this->router->post('/product', ['Product', 'store']);
 
